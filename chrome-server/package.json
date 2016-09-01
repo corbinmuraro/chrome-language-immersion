@@ -1,0 +1,16 @@
+{
+  "name": "translation-server",
+  "version": "0.1.0",
+  "description": "Translates segments of text for use with Chrome language immersion extension",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Corbin Muraro",
+  "license": "MIT",
+  "dependencies": {
+    "mstranslator": "~2.0.8",
+    "socket.io": "~1.4.8"
+  }
+}
