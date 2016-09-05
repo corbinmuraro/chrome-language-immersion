@@ -10,38 +10,51 @@ var client = new MsTranslator({
 
 
 var express = require('express');
-var bodyParser = require('body-parser');
-
 var app = express();
-app.use(bodyParser.json());
+
+var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.post('/', function (req, res) {
-    res.setHeader('Content-Type', 'application/json');
+app.post('/', function (req, res, next) {
+	res.setHeader('Content-Type', 'application/json');
 
-    var preTranslate = req.body.content;
-    console.log(preTranslate);
+	var wordArray = req.body.wordArray;
+	var wordsRemaining = wordArray.length;
 
-    var params = {
-      text: preTranslate,
-      from: 'en',
-      to: 'zh-CHS'
-    };
+	for (var i = 0; i < wordArray.length; i++)
+	{
+		var params = {
+			text: wordArray[i].untranslated,
+			from: req.body.fromLang,
+			to: req.body.toLang
+		};
+		
+		function outer(params, i, callback)
+		{
+			client.translate(params, function(err,result)
+			{
+				wordArray[i].translated = result;
+				wordsRemaining--;
+				callback();
+			});
+		}
 
-    // Don't worry about access token, it will be auto-generated if needed.
-    client.translate(params, function(err, postTranslate) {
-        console.log(postTranslate);
-        res.send(JSON.stringify({
-            content: postTranslate
-        }));
-    });
+		outer(params,i,checkWordsRemaining);
+	}
+
+	function checkWordsRemaining()
+	{
+		if (wordsRemaining === 0) 
+			res.send(wordArray);
+	}
 });
+
+
 
 app.listen(8888, function () {
-  console.log('Example app listening on port 8888!');
+	console.log('Example app listening on port 8888!');
 });
-
-
 
 
 
@@ -54,24 +67,24 @@ app.listen(8888, function () {
 
 // io.sockets.on('connection', function(socket) {
 
-// 	socket.on('pre-translate', function(data) {
+//  socket.on('pre-translate', function(data) {
 
-// 		console.log(data.value + "  " + data.from + "  " + data.to);
+//      console.log(data.value + "  " + data.from + "  " + data.to);
 
-// 		var params = {
-// 			text: data.value,
-// 			from: data.from,
-// 			to: data.to
-// 		};
+//      var params = {
+//          text: data.value,
+//          from: data.from,
+//          to: data.to
+//      };
 
-// 		var translatedText = "";
+//      var translatedText = "";
 
-// 		client.translate(params, function(err, data) {
-// 			console.log(data);
+//      client.translate(params, function(err, data) {
+//          console.log(data);
 
-// 			socket.emit('post-translate', {
-// 	    		value: data
-// 	   		});
-// 		});
-// 	});
+//          socket.emit('post-translate', {
+//              value: data
+//          });
+//      });
+//  });
 // });
