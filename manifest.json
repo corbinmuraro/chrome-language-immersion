@@ -3,18 +3,33 @@
 	"version" : "1.0",
 	"manifest_version" : 2,
 	"description" : "Replaces portions of text with a langauge you're trying to learn",
-	"icons" : {},
-	"background" : {
-		"scripts" : ["background.js"]
+	"icons" : {"128" : "browseraction.png"},
+	"background": {
+		"scripts": [
+			"background.js"
+		]
 	},
 	"browser_action" : {
+		"default_icon" : "browseraction.png",
 		"default_title" : "Language Immersion"
 	},
+	"content_scripts": [
+		{
+			"matches": [
+				"<all_urls>"
+            ],
+            "js": [
+            	"jquery-3.1.0.js",
+				"content.js"
+			]
+		}
+	],
 	"options_page" : "options.html",
 	"permissions" : [
-		"background",
 		"tabs",
+		"storage",
 		"http://*/*",
 		"https://*/*"
-	]
+	],
+	"content_security_policy": "script-src 'self' https://languageimmersion.tk:8888; object-src 'self'"
 }

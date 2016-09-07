@@ -1,3 +1,31 @@
+// /* When the browser-action button is clicked... */
+// chrome.browserAction.onClicked.addListener(function(tab) {
+//     chrome.tabs.create({
+//         'url': "chrome://extensions/?options=" + chrome.runtime.id,
+//         'selected': true
+//     });
+// });
+
+
+// chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+//     if(changeInfo && changeInfo.status == "complete"){
+//         chrome.tabs.executeScript(tabId, {file: "jquery.js"}, function(){
+//             chrome.tabs.executeScript(tabId, {file: "script.js"});
+//         });
+//     }
+// });
+
+// function loadLangs() {
+//     chrome.storage.sync.get({
+//     	from: 'en',
+//     	to: 'es',
+//     }, function(items) {
+//     	console.log('at least?');	
+//         setLanguage(items.from, items.to);
+//     });
+// }
+
+
 var jsonObject = {
 	wordArray : [],
 	fromLang : "en",
@@ -6,12 +34,13 @@ var jsonObject = {
 
 var textNodes = [];
 
-walk(document.body, buildjsObject);
+// loadLangs();
+walk(document.body);
 buildjsObject();
 getTranslation();
 
 
-function walk(node,callFunct)
+function walk(node)
 {
 	var child, next;
 	switch ( node.nodeType )
@@ -30,6 +59,7 @@ function walk(node,callFunct)
 		case 3: // Text node
 			if (wordCount(node.nodeValue) > 12) // only use sizable portions of text
 			{
+				console.log('wat');
 				textNodes.push(node);
 			}
 
@@ -48,12 +78,12 @@ function buildjsObject(node)
 		// splits string into array of word strings
 		var stringArray = textNodes[i].nodeValue.split(" ");
 
-		var i = Math.floor(Math.random() * 10) + 5;
-		while (i < stringArray.length)
+		var j = Math.floor(Math.random() * 10) + 5;
+		while (j < stringArray.length)
 		{
 			// TODO: make translation snippets randomly varied in length (maybe 1-3 words?)
 			// TODO: make sure that translation snippet doesn't cut across sentences
-			var wordToTranslate = stringArray[i];
+			var wordToTranslate = stringArray[j];
 
 			// use the following line when using multiple word phrases to join them into a string
 			// var preTranslatedSnippet = translationSnippets.join(" ");
@@ -74,8 +104,11 @@ function buildjsObject(node)
 	        };
 
 	        jsonObject.wordArray.push(item);
+	        console.log(item.untranslated);
 
-			i += Math.floor(Math.random() * 10) + 5;
+
+
+			j += Math.floor(Math.random() * 10) + 5;
 		}
 	}
 }
@@ -85,9 +118,11 @@ function buildjsObject(node)
 // CALLBACK: replaceWords
 function getTranslation() 
 {
+	console.log('ajax call');
+
     $.ajax({
     	type: 'POST',
-        url: 'http://ec2-54-191-234-133.us-west-2.compute.amazonaws.com:8888',
+        url: 'https://languageimmersion.tk:8888',
         data: JSON.stringify(jsonObject),
         contentType: 'application/json',
         dataType: "json",
@@ -100,6 +135,7 @@ function getTranslation()
 
 function replaceWords(translatedArray)
 {
+	console.log('callback!');
 	for (var i = 0; i < textNodes.length; i++)
 	{
 		var v = textNodes[i].nodeValue;
@@ -113,7 +149,13 @@ function replaceWords(translatedArray)
 	}
 }
 
-
+// takes languages as inputs
+// assigns lanuages to the jsonObject.
+function setLanguage(fromLang, toLang)
+{
+	jsonObject.fromLang = fromLang;
+	jsonObject.toLang = toLang;
+}
 
 
 // ARGUMENTS: a string
