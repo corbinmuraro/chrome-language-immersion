@@ -1,97 +1,97 @@
-// function loadLangs() {
-//     chrome.storage.sync.get({
-//     	from: 'en',
-//     	to: 'es',
-//     }, function(items) {
-//     	console.log('at least?');	
-//         setLanguage(items.from, items.to);
-//     });
-// }
-
+var ignoreList = [
+	"the",
+	"and",
+	"have",
+	"that",
+	"this",
+	"what",
+	"were",
+	"are",
+	"than",
+	"with",
+	"from",
+	"for",
+	"about",
+	"will",
+	"would",
+	"there",
+];
 
 var jsonObject = {
 	wordArray : [],
-	fromLang : "en",
-	toLang : "fr",
+	fromLang : "",	// THESE VALUES SHOULD GET FILLED BY setLanguage() 
+	toLang : ""		// function at bottom of file, if they don't, ERROR
 };
 
 var textNodes = [];
 
-// loadLangs();
-walk(document.body);
-buildjsObject();
-getTranslation();
+findText();
 
-
-function walk(node)
+// uses jquery to find text on page and adds it to textNodes
+function findText()
 {
-	var child, next;
+	console.log('findtext');
 
+	$( "p" ).each(function( index ) {
+		var paragraph = $( this ).text();
+		if (wordCount($( this ).text()) > 20)
+		{
+			textNodes.push($( this ).text());
+		}
+	});
 
-	switch ( node.nodeType )
-	{
-		case 1:  // Element
-		case 9:  // Document
-		case 11: // Document fragment
-			child = node.firstChild;
-			while ( child ) 
-			{
-				next = child.nextSibling;
-				walk(child);
-				child = next;
-			}
-			break;
-		case 3: // Text node
-			if (wordCount(node.nodeValue) > 12) // only use sizable portions of text
-			{
-				textNodes.push(node);
-				console.log(node.nodeValue.body);
-			}
-
-			break;
-	}
+	pickWords();
 }
 
-
-// finds words to translate
+// picks words to translate
 // builds the javascript array wordArray with all the words,
 // leaving the translated strings empty
-function buildjsObject(node)
+function pickWords()
 {
+	console.log('pickwords');
+
+	console.log(textNodes.length);
 	for (var i = 0; i < textNodes.length; i++)
 	{
 		// splits string into array of word strings
-		var stringArray = textNodes[i].nodeValue.split(" ");
+		var stringArray = textNodes[i].split(" ");
 
 		var j = Math.floor(Math.random() * 10) + 5;
 		while (j < stringArray.length)
 		{
-			// TODO: make translation snippets randomly varied in length (maybe 1-3 words?)
-			// TODO: make sure that translation snippet doesn't cut across sentences
+			// TODO: make translation snippets randomly varied in word length , don't cut across sentences
+
 			var wordToTranslate = stringArray[j];
+			if (validate(wordToTranslate))
+			{
+				var item = {
+					untranslated : wordToTranslate,
+					translated : ""
+				};
 
-			// use the following line when using multiple word phrases to join them into a string
-			// var preTranslatedSnippet = translationSnippets.join(" ");
-
-			/*
-				WHAT I NEED TO DO:
-		
-				FIND ALL THE SPOTS TO REPLACE IN ONE FUNCTION, SAVE THEM IN GLOBAL ARRAY
-
-				THEN, ONCE ALL THAT SHIT IS DONE, MAKE ONE AJAX CALL WITH ALL PARAMETERS
-
-				LASTYLY, REPLACE THE TRANSLATED TEXT (MAYBE AS CALLBACK FROM AJAX FUNCTION ^)
-			*/
-
-	        var item = {
-	        	untranslated : wordToTranslate,
-	        	translated : ""
-	        };
-
-	        jsonObject.wordArray.push(item);
-
-			j += Math.floor(Math.random() * 10) + 5;
+				jsonObject.wordArray.push(item);
+			}
+			j += Math.floor(Math.random() * 40) + 35;
 		}
+	}
+
+	loadLangs();
+}
+
+function loadLangs() 
+{
+	if (jsonObject.wordArray.length)
+	{
+		console.log('loadlangs');
+		chrome.storage.sync.get({
+			from: 'en',
+			to: 'es',
+		}, function(items) {
+			console.log('setting lang');
+			jsonObject.fromLang = items.from;
+			jsonObject.toLang = items.to;
+			getTranslation();
+		});
 	}
 }
 
@@ -102,42 +102,35 @@ function getTranslation()
 {
 	console.log('ajax call');
 
-    $.ajax({
-    	type: 'POST',
-        url: 'https://languageimmersion.tk:8888',
-        data: JSON.stringify(jsonObject),
-        contentType: 'application/json',
-        dataType: "json",
-        success: replaceWords,
-        error: function (xhr, status, error) {
-            console.log('Error: ' + error.message);
-        }
-    });
+	$.ajax({
+		type: 'POST',
+		url: 'https://languageimmersion.tk:8888',
+		data: JSON.stringify(jsonObject),
+		contentType: 'application/json',
+		dataType: "json",
+		success: replaceWords,
+		error: function (xhr, status, error) {
+			console.log('Error: ' + error.message);
+		}
+	});
 }
 
 function replaceWords(translatedArray)
-{
-	for (var i = 0; i < textNodes.length; i++)
+{	
+	for (var j = 0; j < translatedArray.length; j++)
 	{
-		var v = textNodes[i].nodeValue;
-
-		for (var j = 0; j < translatedArray.length; j++)
-		{
-			v = v.replace(translatedArray[j].untranslated, translatedArray[j].translated);
-			
-			textNodes[i].nodeValue = v;
-		}
+		replaceInDOM(translatedArray[j].untranslated, translatedArray[j].translated);
 	}
 }
 
-// takes languages as inputs
-// assigns lanuages to the jsonObject.
-function setLanguage(fromLang, toLang)
+// takes untranslated and translated string
+// replaces instances of untranslated with translated on DOM
+function replaceInDOM(untranslated, translated)
 {
-	jsonObject.fromLang = fromLang;
-	jsonObject.toLang = toLang;
+	$("p").html(function(i, text) {
+		return text.replace(untranslated, translated);
+	});
 }
-
 
 // ARGUMENTS: a string
 // RETURNS: the number of words in the string
@@ -147,6 +140,33 @@ function wordCount(str)
 }
 
 
+// returns valid if word has no strange characters
+// 				 and isn't an ignored word
+// 				 and isn't 2 characters or shorter
+// TODO: clean up the code by making it all regex
+function validate(word)
+{
+	if (word.length < 3)
+		return false;
+
+	for (var i = 0; i < ignoreList.length; i++)
+	{
+		if (word == ignoreList[i])
+			return false;
+	}
+
+	var re = new RegExp("^[a-z]+$"); 
+	if (!re.test(word)) // false if numbers or special characters, only works well with LATIN languages
+	{
+		console.log("INVALD " + word);
+	}
+	else
+	{
+		console.log("VALID " + word);
+	}
+
+	return true;
+}
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // WEB SOCKET translation function
