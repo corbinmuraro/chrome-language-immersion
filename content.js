@@ -7,6 +7,8 @@ var ignoreList = [
 	"what",
 	"were",
 	"are",
+	"was",
+	"has",
 	"than",
 	"with",
 	"from",
@@ -15,17 +17,18 @@ var ignoreList = [
 	"will",
 	"would",
 	"there",
+	"you"
 ];
-
 var jsonObject = {
 	wordArray : [],
 	fromLang : "",	// THESE VALUES SHOULD GET FILLED BY setLanguage() 
 	toLang : ""		// function at bottom of file, if they don't, ERROR
 };
-
 var textNodes = [];
 
+
 findText();
+
 
 // uses jquery to find text on page and adds it to textNodes
 function findText()
@@ -56,11 +59,12 @@ function pickWords()
 		// splits string into array of word strings
 		var stringArray = textNodes[i].split(" ");
 
-		var j = Math.floor(Math.random() * 10) + 5;
+		var j = Math.floor(Math.random() * 15) + 2;
 		while (j < stringArray.length)
 		{
-			// TODO: make translation snippets randomly varied in word length , don't cut across sentences
-
+			// TODO: make translation snippets randomly varied in word length, don't cut across sentences
+			// 		 at some point, make snippets logical phrases for better translation
+			// 		 (e.g. "and then he said" instead of "cat and then")
 			var wordToTranslate = stringArray[j];
 			if (validate(wordToTranslate))
 			{
@@ -71,13 +75,16 @@ function pickWords()
 
 				jsonObject.wordArray.push(item);
 			}
-			j += Math.floor(Math.random() * 40) + 35;
+
+			j += Math.floor(Math.random() * 90) + 80;
 		}
 	}
 
 	loadLangs();
 }
 
+// if there's nothing found to translate, don't go any further
+// otherwise, pull languages from chrome storage and call ajax
 function loadLangs() 
 {
 	if (jsonObject.wordArray.length)
@@ -96,7 +103,7 @@ function loadLangs()
 }
 
 // ARGUMENTS: a javascript object
-// communicates with the server, adds translated text to JSON object
+// communicates with the server, adds translated text to jsonObject
 // CALLBACK: replaceWords
 function getTranslation() 
 {
@@ -115,20 +122,29 @@ function getTranslation()
 	});
 }
 
+// loops through json object returned, calling replaceInDOM on each
 function replaceWords(translatedArray)
 {	
 	for (var j = 0; j < translatedArray.length; j++)
 	{
 		replaceInDOM(translatedArray[j].untranslated, translatedArray[j].translated);
 	}
+
+	var arrLength = translatedArray.length.toString();
+	console.log('about to send message');
+	chrome.runtime.sendMessage({ type: "updateBadge", length: arrLength });
 }
 
 // takes untranslated and translated string
 // replaces instances of untranslated with translated on DOM
 function replaceInDOM(untranslated, translated)
 {
+	// TODO: replace one word instead of all instances in <p>
+
+	var regex = new RegExp('\\b' + untranslated + '\\b');
+
 	$("p").html(function(i, text) {
-		return text.replace(untranslated, translated);
+		return text.replace(" " + untranslated, "<span style='background-color: #FFFF00'>" + " " + translated + "</span>");
 	});
 }
 
@@ -155,10 +171,11 @@ function validate(word)
 			return false;
 	}
 
-	var re = new RegExp("^[a-z]+$"); 
-	if (!re.test(word)) // false if numbers or special characters, only works well with LATIN languages
+	var re = new RegExp("^[a-z?!.,'’-]+$");
+	if (!re.test(word)) // false if numbers or special characters. This only works for LATIN languages
 	{
 		console.log("INVALD " + word);
+		return false;
 	}
 	else
 	{
