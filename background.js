@@ -16,15 +16,23 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 // });
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-	console.log('in background listener');
-	// It is recommended to add a message type so your code
-	//   can be ready for more types of messages in the future
-	switch(message.type) {
-		case "updateBadge":
-			chrome.browserAction.setBadgeText({text: message.length});
-			break;
-		default:
-			console.warn("Unrecognized message type: " + message.type);
-			break;
-		}
+    if (message.badgeText) {
+        chrome.tabs.get(sender.tab.id, function(tab) {
+            if (chrome.runtime.lastError) {
+                return; // the prerendered tab has been nuked, happens in omnibox search
+            }
+            if (tab.index >= 0) { // tab is visible
+                chrome.browserAction.setBadgeText({tabId:tab.id, text:message.badgeText});
+            } else { // prerendered tab, invisible yet, happens quite rarely
+                var tabId = sender.tab.id, text = message.badgeText;
+                chrome.webNavigation.onCommitted.addListener(function update(details) {
+                    if (details.tabId == tabId) {
+                        chrome.browserAction.setBadgeText({tabId: tabId, text: text});
+                        chrome.webNavigation.onCommitted.removeListener(update);
+                    }
+                });
+            }
+        });
+    }
 });
+

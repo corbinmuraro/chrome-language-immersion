@@ -17,7 +17,9 @@ var ignoreList = [
 	"will",
 	"would",
 	"there",
-	"you"
+	"you",
+	"said",
+	"which"
 ];
 var jsonObject = {
 	wordArray : [],
@@ -33,8 +35,6 @@ findText();
 // uses jquery to find text on page and adds it to textNodes
 function findText()
 {
-	console.log('findtext');
-
 	$( "p" ).each(function( index ) {
 		var paragraph = $( this ).text();
 		if (wordCount($( this ).text()) > 20)
@@ -47,12 +47,10 @@ function findText()
 }
 
 // picks words to translate
-// builds the javascript array wordArray with all the words,
-// leaving the translated strings empty
+// builds the javascript array wordArray with all the words
+// sends number of words to display badgetext on background.js
 function pickWords()
 {
-	console.log('pickwords');
-
 	console.log(textNodes.length);
 	for (var i = 0; i < textNodes.length; i++)
 	{
@@ -80,6 +78,9 @@ function pickWords()
 		}
 	}
 
+	var arrLength = textNodes.length.toString();
+	chrome.runtime.sendMessage({ badgeText : arrLength });
+
 	loadLangs();
 }
 
@@ -89,12 +90,10 @@ function loadLangs()
 {
 	if (jsonObject.wordArray.length)
 	{
-		console.log('loadlangs');
 		chrome.storage.sync.get({
 			from: 'en',
 			to: 'es',
 		}, function(items) {
-			console.log('setting lang');
 			jsonObject.fromLang = items.from;
 			jsonObject.toLang = items.to;
 			getTranslation();
@@ -107,8 +106,6 @@ function loadLangs()
 // CALLBACK: replaceWords
 function getTranslation() 
 {
-	console.log('ajax call');
-
 	$.ajax({
 		type: 'POST',
 		url: 'https://languageimmersion.tk:8888',
@@ -129,10 +126,6 @@ function replaceWords(translatedArray)
 	{
 		replaceInDOM(translatedArray[j].untranslated, translatedArray[j].translated);
 	}
-
-	var arrLength = translatedArray.length.toString();
-	console.log('about to send message');
-	chrome.runtime.sendMessage({ type: "updateBadge", length: arrLength });
 }
 
 // takes untranslated and translated string
@@ -141,12 +134,21 @@ function replaceInDOM(untranslated, translated)
 {
 	// TODO: replace one word instead of all instances in <p>
 
-	var regex = new RegExp('\\b' + untranslated + '\\b');
+	var untranslatedRegex = new RegExp('\\b' + untranslated + '\\b');
+
+	var mouseoverUntranslated = untranslated; // used for replacement
+	var mouseoverTranslated = translated;
+
+	var style = "style='background-color: #FFFF00'";
+	var onmouseover = "onmouseover=\"this.innerHTML ='" + mouseoverUntranslated + "';\"";
+	var onmouseout = "onmouseout=\"this.innerHTML ='" + mouseoverTranslated + "';\"";
+
+	var translatedString = "<span " + style + " " + onmouseover + " " + onmouseout + ">" + translated + "</span>";
 
 	$("p").html(function(i, text) {
-		return text.replace(" " + untranslated, "<span style='background-color: #FFFF00'>" + " " + translated + "</span>");
-	});
-}
+		return text.replace(untranslatedRegex, translatedString);
+	});	
+ }
 
 // ARGUMENTS: a string
 // RETURNS: the number of words in the string
