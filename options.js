@@ -1,12 +1,12 @@
 
 function saveSettings()
 {
-	var fromLang = document.getElementById('fromLang').value;
+	// var fromLang = document.getElementById('fromLang').value;
 	var toLang = document.getElementById('toLang').value;
-	console.log(fromLang + "    " + toLang);
+	console.log(toLang);
 
 	chrome.storage.sync.set({
-        from: fromLang,
+        // from: fromLang,
         to: toLang
     }, function() {
         // Update status to let user know options were saved.
@@ -23,7 +23,7 @@ function restoreSettings()
         from: 'en', 		// default
         to: 'es', 			// default
     }, function(items) {
-        document.getElementById('fromLang').value = items.from;
+        // document.getElementById('fromLang').value = items.from;
         document.getElementById('toLang').value = items.to;
     });
 }
