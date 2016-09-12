@@ -1,0 +1,74 @@
+html, body {
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	font-family: HelveticaNeue, Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	background: #F3F3F3;
+}
+
+#wrap {
+	min-height: 100%;
+}
+
+#container {
+	width: 200px;
+	min-height: 200px;
+	max-height: 400px;
+	overflow: auto;
+	padding-bottom: 50px;
+}
+
+#alert {
+	height: 30px;
+	font-size: 14px;
+	text-align: center;
+	margin: 10px;
+}
+
+.phraseGroup {
+	height: 54px;
+	margin: 0px 10px 22px 10px;
+	position: relative;
+
+}
+
+.phraseGroup div:nth-child(1) {
+	float: left;
+  	width: auto;
+  	position: relative;
+  	clear: both;
+
+	padding: 5px 8px 5px 6px;
+	text-align: left;
+	background: #BBE7A7;
+	border-radius: 5px;
+	font-size: 14px;
+	color: #000000;
+	margin-bottom: 2px;
+}
+
+.phraseGroup div:nth-child(2) {
+	float: right;
+  	width: auto;
+  	position: relative;
+
+	padding: 5px 6px 5px 8px;
+	text-align: right;
+	background: #A7C7E7;
+	border-radius: 5px;
+	font-size: 14px;
+	color: #000000;
+}
+
+#footer {
+  position: relative;
+  margin-top: -50px; /* negative value of footer height */
+  height: 50px;
+  clear: both;	
+}
+
+#settings {
+    text-align: center;
+    vertical-align: bottom;
+}

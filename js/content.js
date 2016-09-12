@@ -1,7 +1,9 @@
+/* only need to ignore words when looking without context
 var ignoreList = [
 	"the",
 	"and",
 	"have",
+	"said",
 	"that",
 	"this",
 	"what",
@@ -18,21 +20,22 @@ var ignoreList = [
 	"would",
 	"there",
 	"you",
-	"said",
 	"which"
-];
+]; 
+*/
+
 var jsonObject = {
-	wordArray : [],
+	phraseArray : [],
 	fromLang : "",	// THESE VALUES SHOULD GET FILLED BY setLanguage() 
 	toLang : ""		// function at bottom of file, if they don't, ERROR
 };
-var textNodes = [];
-
+var textNodes = []; // gets converted into json and then sent to server
+var translatedContent = []; // what gets returned from the server
 
 findText();
 
-
 // uses jquery to find text on page and adds it to textNodes
+// only looking at paragraph nodes
 function findText()
 {
 	$( "p" ).each(function( index ) {
@@ -46,12 +49,11 @@ function findText()
 	pickWords();
 }
 
-// picks words to translate
-// builds the javascript array wordArray with all the words
-// sends number of words to display badgetext on background.js
+// picks phrases to translate
+// builds the javascript array phraseArray with all the words
+// sends number of words to display for badgetext to background.js
 function pickWords()
 {
-	console.log(textNodes.length);
 	for (var i = 0; i < textNodes.length; i++)
 	{
 		// splits string into array of word strings
@@ -63,23 +65,23 @@ function pickWords()
 			// TODO: make translation snippets randomly varied in word length, don't cut across sentences
 			// 		 at some point, make snippets logical phrases for better translation
 			// 		 (e.g. "and then he said" instead of "cat and then")
-			var wordToTranslate = stringArray[j];
-			if (validate(wordToTranslate))
+			var phraseToTranslate = stringArray[j] + " " + stringArray[j+1] + " " + stringArray[j+2];
+			if (validate(phraseToTranslate))
 			{
 				var item = {
-					untranslated : wordToTranslate,
+					untranslated : phraseToTranslate,
 					translated : ""
 				};
 
-				jsonObject.wordArray.push(item);
+				jsonObject.phraseArray.push(item);
 			}
 
 			j += Math.floor(Math.random() * 90) + 80;
 		}
 	}
 
-	var arrLength = textNodes.length.toString();
-	chrome.runtime.sendMessage({ badgeText : arrLength });
+	var arrLength = jsonObject.phraseArray.length.toString();
+	chrome.runtime.sendMessage({ type: "setBadge", badgeText : arrLength });
 
 	loadLangs();
 }
@@ -88,7 +90,7 @@ function pickWords()
 // otherwise, pull languages from chrome storage and call ajax
 function loadLangs() 
 {
-	if (jsonObject.wordArray.length)
+	if (jsonObject.phraseArray.length)
 	{
 		chrome.storage.sync.get({
 			from: 'en',
@@ -103,7 +105,7 @@ function loadLangs()
 
 // ARGUMENTS: a javascript object
 // communicates with the server, adds translated text to jsonObject
-// CALLBACK: replaceWords
+// CALLBACK: replacePhrases
 function getTranslation() 
 {
 	$.ajax({
@@ -112,7 +114,7 @@ function getTranslation()
 		data: JSON.stringify(jsonObject),
 		contentType: 'application/json',
 		dataType: "json",
-		success: replaceWords,
+		success: replacePhrases,
 		error: function (xhr, status, error) {
 			console.log('Error: ' + error.message);
 		}
@@ -120,11 +122,13 @@ function getTranslation()
 }
 
 // loops through json object returned, calling replaceInDOM on each
-function replaceWords(translatedArray)
+function replacePhrases(translatedArray)
 {	
-	for (var j = 0; j < translatedArray.length; j++)
+	translatedContent = translatedArray;
+
+	for (var j = 0; j < translatedContent.length; j++)
 	{
-		replaceInDOM(translatedArray[j].untranslated, translatedArray[j].translated);
+		replaceInDOM(translatedContent[j].untranslated, translatedContent[j].translated);
 	}
 }
 
@@ -132,22 +136,22 @@ function replaceWords(translatedArray)
 // replaces instances of untranslated with translated on DOM
 function replaceInDOM(untranslated, translated)
 {
-	// TODO: replace one word instead of all instances in <p>
-
 	var untranslatedRegex = new RegExp('\\b' + untranslated + '\\b');
 
 	var mouseoverUntranslated = untranslated; // used for replacement
 	var mouseoverTranslated = translated;
 
-	var style = "style='background-color: #FFFF00'";
+	var style = "style='text-decoration: underline'";
 	var onmouseover = "onmouseover=\"this.innerHTML ='" + mouseoverUntranslated + "';\"";
 	var onmouseout = "onmouseout=\"this.innerHTML ='" + mouseoverTranslated + "';\"";
 
 	var translatedString = "<span " + style + " " + onmouseover + " " + onmouseout + ">" + translated + "</span>";
 
-	$("p").html(function(i, text) {
-		return text.replace(untranslatedRegex, translatedString);
-	});	
+	$("body *").replaceText(untranslatedRegex, translatedString);
+
+	// $("p").html(function(i, text) {
+	// 	return text.replace(untranslatedRegex, translatedString);
+	// });
  }
 
 // ARGUMENTS: a string
@@ -157,35 +161,40 @@ function wordCount(str)
 	return str.split(" ").length;
 }
 
-
-// returns valid if word has no strange characters
-// 				 and isn't an ignored word
-// 				 and isn't 2 characters or shorter
-// TODO: clean up the code by making it all regex
-function validate(word)
+// returns valid if phrase has no strange characters
+// TODO: add validation for non-latin based languages
+function validate(phrase)
 {
-	if (word.length < 3)
-		return false;
-
-	for (var i = 0; i < ignoreList.length; i++)
+	var re = new RegExp("^[a-z ,'’-]{6,}$"); // only lowercase, space, comma, etc, 6+ characters
+	if (!re.test(phrase) || phrase.indexOf('undefined') !== -1)
 	{
-		if (word == ignoreList[i])
-			return false;
-	}
-
-	var re = new RegExp("^[a-z?!.,'’-]+$");
-	if (!re.test(word)) // false if numbers or special characters. This only works for LATIN languages
-	{
-		console.log("INVALD " + word);
+		console.log("INVALD " + phrase);
 		return false;
 	}
 	else
 	{
-		console.log("VALID " + word);
+		console.log("VALID " + phrase);
 	}
 
 	return true;
 }
+
+/* =============================================== */
+
+chrome.runtime.onMessage.addListener(
+    function(message, sender, sendResponse) {
+        switch(message.type) {
+            case "getCount":
+            	console.log(translatedContent);
+                sendResponse(translatedContent);
+                break;
+            default:
+                console.error("Unrecognised message: ", message);
+        }
+    }
+);
+
+
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // WEB SOCKET translation function

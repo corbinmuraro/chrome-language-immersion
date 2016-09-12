@@ -1,29 +1,21 @@
 <!DOCTYPE html>
 <head>
-	<style type="text/css">
-
-		body {
-			margin: 0px;
-			padding: 0px;
-			font-family: Helvetica, Arial, sans-serif;
-			font-size: 13px;
-		}
-
-		.popup {
-			width: 350px;
-			min-height: 200px;
-		}
-		
-
-
-	</style>
+	<link href="css/popup.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="js/popup.js"></script>
+	<script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
 </head>
 <body>
-		
-	<div class="popup">
-		Lets see
+	
+	<div id="wrap">
+		<div id="container">
+			<div id="alert"></div>
+			<div class="phraseList"></div>
+		</div>
 	</div>
 
+	<div id="footer">
+		<a href='javascript:;' onClick='openOptions()'>Hello</a>
+	</div>
 
 </body>
 </html>

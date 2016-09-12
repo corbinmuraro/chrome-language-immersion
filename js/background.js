@@ -1,10 +1,10 @@
-/* When the browser-action button is clicked... */
-chrome.browserAction.onClicked.addListener(function(tab) {
-    chrome.tabs.create({
-        'url': "chrome://extensions/?options=" + chrome.runtime.id,
-        'selected': true
-    });
-});
+// /* When the browser-action button is clicked... */
+// chrome.browserAction.onClicked.addListener(function(tab) {
+//     chrome.tabs.create({
+//         'url': "chrome://extensions/?options=" + chrome.runtime.id,
+//         'selected': true
+//     });
+// });
 
 // If all works fine, just remove this code
 // chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
