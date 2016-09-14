@@ -1,6 +1,9 @@
+* {
+  margin: 0;
+}
+
 html, body {
 	height: 100%;
-	margin: 0px;
 	padding: 0px;
 	font-family: HelveticaNeue, Helvetica, Arial, sans-serif;
 	font-size: 13px;
@@ -9,66 +12,77 @@ html, body {
 
 #wrap {
 	min-height: 100%;
+	min-width: 260px;
+	max-height: 450px;
 }
 
-#container {
-	width: 200px;
-	min-height: 200px;
-	max-height: 400px;
-	overflow: auto;
-	padding-bottom: 50px;
+.header {
+	margin: 6px;
+	text-align: center;
+	position: relative;
+}
+
+.header span {
+	margin: 12px;
+	font-size: 18px;
+}
+
+#options {
+	outline: 0;
+	margin: 3px;
+	position:absolute;
+	right:0;
+}
+
+#options .fa-cog {
+  	color: black;
 }
 
 #alert {
-	height: 30px;
 	font-size: 14px;
 	text-align: center;
-	margin: 10px;
+	margin-top: 10px;
 }
+
+.phraseList {
+	display: table;
+	border-collapse: separate;
+	border-spacing: 10px;
+}
+
 
 .phraseGroup {
-	height: 54px;
-	margin: 0px 10px 22px 10px;
+	display: table-row;
 	position: relative;
-
+	margin-bottom: 10px;
 }
 
-.phraseGroup div:nth-child(1) {
-	float: left;
-  	width: auto;
-  	position: relative;
-  	clear: both;
-
-	padding: 5px 8px 5px 6px;
-	text-align: left;
+.phraseGroup .col1 {
+	max-width: 46%;
+	display: inline;
+	display: table-cell;
+	padding: 4px 6px;
 	background: #BBE7A7;
+	color: #000000;
 	border-radius: 5px;
 	font-size: 14px;
-	color: #000000;
-	margin-bottom: 2px;
 }
 
-.phraseGroup div:nth-child(2) {
-	float: right;
-  	width: auto;
-  	position: relative;
+.phraseGroup .padding {
+	display: table-cell;
+    width: auto;
+}
 
-	padding: 5px 6px 5px 8px;
-	text-align: right;
+.phraseGroup .col2 {
+	max-width: 46%;
+	display: inline;
+	display: table-cell;
+
+	padding: 4px 6px;
 	background: #A7C7E7;
+	color: #000000;
 	border-radius: 5px;
 	font-size: 14px;
-	color: #000000;
 }
 
-#footer {
-  position: relative;
-  margin-top: -50px; /* negative value of footer height */
-  height: 50px;
-  clear: both;	
-}
 
-#settings {
-    text-align: center;
-    vertical-align: bottom;
-}
