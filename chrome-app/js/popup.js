@@ -2,6 +2,11 @@ $(document).ready(function() {
 	$('#options').click( function() {
 		chrome.runtime.openOptionsPage();
 	});
+
+	$('#toggle').click(function() {
+		
+		removeFromDomains();
+	});
 });
 
 chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -28,3 +33,6 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 		});
 	});
 
+function removeFromDomains() {
+	
+}

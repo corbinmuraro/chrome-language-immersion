@@ -32,6 +32,7 @@ var jsonObject = {
 var textNodes = []; // gets converted into json and then sent to server
 var translatedContent = []; // what gets returned from the server
 
+// TODO: ADD USER CREATED BLACKLIST, don't run any code if the domain is on the blacklist
 findText();
 
 // uses jquery to find text on page and adds it to textNodes
