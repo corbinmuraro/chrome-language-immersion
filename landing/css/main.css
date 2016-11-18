@@ -1,0 +1,138 @@
+@font-face {
+    font-family: 'Proxima Nova Black';
+    src: url('../fonts/Proxima\ Nova\ Black.otf');
+}
+4
+@font-face {
+    font-family: 'Proxima Nova Bold';
+    src: url('../fonts/Proxima\ Nova\ Bold.otf');
+}
+
+@font-face {
+    font-family: 'Proxima Nova Semibold';
+    src: url('../fonts/Proxima\ Nova\ Semibold.otf');
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}
+ 
+.container {
+    height: 100%;
+    padding: 40px 30px;
+    box-sizing: border-box;
+    background: rgba(45,64,224,0.46);
+}
+ 
+.header-block {
+ 	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+    text-align: center;
+}
+ 
+#title {
+    font-family: 'Proxima Nova Black';
+    font-size: 66px;
+    color: #000000;
+}
+ 
+#description {
+    font-family: 'Proxima Nova Semibold';
+    font-size: 16px;
+    width: 325px;
+    color: #000000;
+}
+ 
+.button-container {
+    display: inline-block;
+    padding: 15px 21px;
+    margin-top: 50px;
+ 
+    border: 2px solid #000000;
+    border-radius: 100px;
+    background: #ffffff;
+    opacity: 0.8;
+    transition: opacity .15s ease-in-out;
+    -moz-transition: opacity .15s;
+    -webkit-transition: opacity .15s;
+}
+ 
+.button-container:hover {
+    opacity: 1;
+}
+ 
+.button-text {
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    color: #000000;
+}
+ 
+ 
+.background-text {
+    height: 98%;
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
+    overflow: hidden;
+
+	-webkit-user-select: none;  /* Chrome all / Safari all */
+	-moz-user-select: none;     /* Firefox all */
+	-ms-user-select: none;      /* IE 10+ */
+	user-select: none;
+}
+ 
+.background-text p {
+    text-indent: 1.5em;
+    font-family: Times;
+    font-size: 15px;
+    color: #8F8F8F;
+}
+
+.background-text p:first-child {
+	margin-top: 0;
+}
+ 
+#footer {
+    padding: 10px 0;
+    box-sizing: border-box;
+    text-align: center;
+    font-family: 'Proxima Nova Semibold';
+    font-size: 16px;
+
+}
+
+#footer a {
+	color: #000000;
+    text-decoration: none;
+}
+
+/* Larger than mobile */
+@media (min-width: 400px) {}
+
+/* Larger than phablet */
+@media (min-width: 550px) {
+	.background-text {
+		-webkit-column-count: 2;
+   		-moz-column-count: 2;
+   		column-count: 2;
+	}	
+}
+
+/* Larger than tablet */
+@media (min-width: 750px) {
+	.background-text {
+		-webkit-column-count: 3;
+   		-moz-column-count: 3;
+   		column-count: 3;
+	}
+}
+
+/* Larger than desktop */
+@media (min-width: 1000px) {}
+
+/* Larger than Desktop HD */
+@media (min-width: 1200px) {}
