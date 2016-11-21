@@ -66,7 +66,7 @@ html, body {
 }
  
 .button-text {
-    font-family: 'Proxima Nova';
+    font-family: 'Proxima Nova Semibold';
     font-size: 16px;
     color: #000000;
 }
@@ -95,6 +95,19 @@ html, body {
 .background-text p:first-child {
 	margin-top: 0;
 }
+
+.beforeAnimation {
+    text-decoration: underline;
+    background-color: #FFFF00;
+}
+
+.afterAnimation {
+    text-decoration: underline;
+    background-color: rgb(0,0,0,0);
+    transition: background-color 1s linear;
+    -moz-transition: background-color 1s linear;
+    -webkit-transition: background-color 1s linear;
+}
  
 #footer {
     padding: 10px 0;
@@ -109,6 +122,10 @@ html, body {
 	color: #000000;
     text-decoration: none;
 }
+
+
+
+/* MEDIA QUERIES */
 
 /* Larger than mobile */
 @media (min-width: 400px) {}
