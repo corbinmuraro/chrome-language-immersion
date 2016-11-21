@@ -6,42 +6,40 @@ var phrases = [];
 $(function() {
     $('.translated').each(function() {
 		phrase = $(this);
-
-		phrases.push(phrase);
-		phrase.css('background-color','yellow');
+		phrase.addClass('beforeAnimation');
+        phrases.push(phrase);
 	});
 
-    shuffle(phrases);
+    // shuffle(phrases);
 
-	(function phrasesLoop (i) {
-		setTimeout(function () {
-			replaceText(phrases[i]);
-			if (i < phrases.length - 1) {
-				i++;
-				phrasesLoop(i);		//  decrement i and call myLoop again if i > 0
-			} 
-		}, 220);
-	})(0);
+    var count = 0;
+    var i = setInterval(function(){
+	    replaceText(phrases[count]);
+
+	    count++;
+	    if(count === phrases.length) {
+	        clearInterval(i);
+	    }
+	}, 800);
 });
 
-
-
-
-function replaceText(node) {
-    var contentArray = node.data('translation').split(""),
+// replaces 
+function replaceText(phrase) {
+    var contentArray = phrase.data('translation').split(""),
         current = 0;
-    node.text("");
+    phrase.text("");
     setInterval(function() {
         if(current < contentArray.length) {
-            node.text(node.text() + contentArray[current++]);
+            phrase.text(phrase.text() + contentArray[current++]);
         }
         else {
-        	// node.animate({ 'background-color': 'rgba(0, 0, 0, 0.1)' },1000);
+        	phrase.removeClass('beforeAnimation');
+        	phrase.addClass('afterAnimation');
         }
     }, 70);
 }
 
-
+// utility function to shuffle array order
 function shuffle(arr) {
     var j, x, i;
     for (i = arr.length; i; i--) {
