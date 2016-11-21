@@ -17,8 +17,9 @@ html, body {
     margin: 0;
     height: 100%;
     overflow: hidden;
+    position: fixed;
 }
- 
+    
 .container {
     height: 100%;
     padding: 40px 30px;
