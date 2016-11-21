@@ -21,9 +21,11 @@ html, body {
  
 .container {
     height: 100%;
-    padding: 40px 30px;
+    padding: 30px 30px;
     box-sizing: border-box;
-    background: rgba(45,64,224,0.46);
+    background: #4CB8C4; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #4CB8C4 , #3CD3AD); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #4CB8C4 , #3CD3AD); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
  
 .header-block {
@@ -70,8 +72,7 @@ html, body {
     font-size: 16px;
     color: #000000;
 }
- 
- 
+
 .background-text {
     height: 98%;
     -webkit-column-count: 1;
@@ -88,8 +89,8 @@ html, body {
 .background-text p {
     text-indent: 1.5em;
     font-family: Times;
-    font-size: 15px;
-    color: #8F8F8F;
+    font-size: 14px;
+    color: #959595;
 }
 
 .background-text p:first-child {
@@ -98,7 +99,7 @@ html, body {
 
 .beforeAnimation {
     text-decoration: underline;
-    background-color: #FFFF00;
+    background-color: rgba(255,255,255,0.4);
 }
 
 .afterAnimation {
@@ -114,7 +115,7 @@ html, body {
     box-sizing: border-box;
     text-align: center;
     font-family: 'Proxima Nova Semibold';
-    font-size: 16px;
+    font-size: 12px;
 
 }
 
@@ -146,6 +147,10 @@ html, body {
    		-moz-column-count: 3;
    		column-count: 3;
 	}
+
+    .background-text p {
+        font-size: 15px;
+    }
 }
 
 /* Larger than desktop */
