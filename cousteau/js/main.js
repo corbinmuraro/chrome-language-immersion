@@ -39,13 +39,13 @@ function replaceText(phrase) {
     }, 70);
 }
 
-// utility function to shuffle array order
-function shuffle(arr) {
-    var j, x, i;
-    for (i = arr.length; i; i--) {
-        j = Math.floor(Math.random() * i);
-        x = arr[i - 1];
-        arr[i - 1] = arr[j];
-        arr[j] = x;
-    }
-}
+// // utility function to shuffle array order
+// function shuffle(arr) {
+//     var j, x, i;
+//     for (i = arr.length; i; i--) {
+//         j = Math.floor(Math.random() * i);
+//         x = arr[i - 1];
+//         arr[i - 1] = arr[j];
+//         arr[j] = x;
+//     }
+// }

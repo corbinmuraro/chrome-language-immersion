@@ -22,33 +22,35 @@ html, body {
     
 .container {
     height: 100%;
-    padding: 40px 30px;
+    padding: 20px 30px;
     box-sizing: border-box;
-    background: rgba(45,64,224,0.46);
-}
- 
+
+
+
+background: #4CB8C4; /* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #4CB8C4 , #3CD3AD); /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #4CB8C4 , #3CD3AD); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      
+ }     
+
 .header-block {
- 	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-    text-align: center;
+    display: block;
+    text-align: left;
 }
  
 #title {
     font-family: 'Proxima Nova Black';
-    font-size: 66px;
+    font-size: 50px;
     color: #000000;
 }
  
 #description {
     font-family: 'Proxima Nova Semibold';
     font-size: 16px;
-    width: 325px;
     color: #000000;
 }
  
-.button-container {
+/*.button-container {
     display: inline-block;
     padding: 15px 21px;
     margin-top: 50px;
@@ -64,7 +66,7 @@ html, body {
  
 .button-container:hover {
     opacity: 1;
-}
+}*/
  
 .button-text {
     font-family: 'Proxima Nova Semibold';
@@ -90,7 +92,7 @@ html, body {
     text-indent: 1.5em;
     font-family: Times;
     font-size: 15px;
-    color: #8F8F8F;
+    color: #000000;
 }
 
 .background-text p:first-child {
@@ -99,7 +101,7 @@ html, body {
 
 .beforeAnimation {
     text-decoration: underline;
-    background-color: #FFFF00;
+    background-color: rgba(255,255,255,0.4);
 }
 
 .afterAnimation {
@@ -111,11 +113,11 @@ html, body {
 }
  
 #footer {
-    padding: 10px 0;
+    padding: 5px 0;
     box-sizing: border-box;
     text-align: center;
     font-family: 'Proxima Nova Semibold';
-    font-size: 16px;
+    font-size: 12px;
 
 }
 
@@ -126,18 +128,16 @@ html, body {
 
 
 
+
+
 /* MEDIA QUERIES */
 
-/* Larger than mobile */
-@media (min-width: 400px) {}
-
-/* Larger than phablet */
-@media (min-width: 550px) {
+@media (min-width: 600px) {
 	.background-text {
 		-webkit-column-count: 2;
    		-moz-column-count: 2;
    		column-count: 2;
-	}	
+	}
 }
 
 /* Larger than tablet */
@@ -150,7 +150,15 @@ html, body {
 }
 
 /* Larger than desktop */
-@media (min-width: 1000px) {}
+@media (min-width: 1000px) {
+    #title {
+        font-size: 66px;
+    }
+
+    #description {
+        font-size: 20px;
+    }
+}
 
 /* Larger than Desktop HD */
 @media (min-width: 1200px) {}
