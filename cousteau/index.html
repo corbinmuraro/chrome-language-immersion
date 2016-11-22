@@ -4,17 +4,17 @@
 	<meta charset="UTF-8">
 	<title>Cousteau</title>
 	<link type="text/css" rel="stylesheet" href="css/main.css">
-	<link type="text/css" rel="stylesheet" href="css/normalize.css">		
+	<link type="text/css" rel="stylesheet" href="css/normalize.css">
+	<script type="text/javascript" src="js/paper-full.min.js"></script>		
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	
 </head>
 <body>
 	<div class="container">
 		<div class="header-block">
 			<div id="title">Cousteau</div>
+			<canvas id="wave"></canvas>
 			<div id="description">Learn a language while browsing the web.</div>
-
 			<a href="https://github.com/corbinmuraro/cousteau">
 				<div class="button-container">
 					<span class="button-text">Cousteau for Chrome</span>
@@ -80,5 +80,6 @@
  		<div id="footer"><a href="http://corbinmuraro.com">Made by Corbin Muraro</a></div>
 	</div>
 	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/paperscript" src="js/wave.js" canvas="wave">
 </body>
 </html>
