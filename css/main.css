@@ -1,16 +1,16 @@
 @font-face {
     font-family: 'Proxima Nova Black';
-    src: url('../fonts/Proxima\ Nova\ Black.otf');
+    src: url('../fonts/Proxima\ Nova\ Black.WOFF');
 }
 4
 @font-face {
     font-family: 'Proxima Nova Bold';
-    src: url('../fonts/Proxima\ Nova\ Bold.otf');
+    src: url('../fonts/Proxima\ Nova\ Bold.WOFF');
 }
 
 @font-face {
     font-family: 'Proxima Nova Semibold';
-    src: url('../fonts/Proxima\ Nova\ Semibold.otf');
+    src: url('../fonts/Proxima\ Nova\ Semibold.WOFF');
 }
 
 html, body {
