@@ -6,13 +6,13 @@ html, body {
 	height: 400px
 	padding: 0px;
 	margin-bottom: 6px;
-	font-family: HelveticaNeue, Helvetica, Arial, sans-serif;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	font-size: 13px;
-	background: #F3F3F3;
+	background-image: linear-gradient(-180deg, #CCEBEE 0%, #9CD1D7 100%);
 }
 
 #wrap {
-	min-width: 260px;
+	min-width: 320px;
 }
 
 .header {
@@ -71,14 +71,17 @@ html, body {
 }
 
 .phraseGroup .col1 {
-	max-width: 46%;
+	width: 46%;
 	display: inline;
 	display: table-cell;
-	padding: 4px 6px;
-	background: #BBE7A7;
-	color: #000000;
+	padding: 10px 6px;
+	background: #F3F3F3;
+	border: 1px solid #000000;
+	box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.50);
 	border-radius: 5px;
 	font-size: 14px;
+	color: #000000;
+	opacity: 0.8;
 }
 
 .phraseGroup .padding {
@@ -87,15 +90,17 @@ html, body {
 }
 
 .phraseGroup .col2 {
-	max-width: 46%;
+	width: 46%;
 	display: inline;
 	display: table-cell;
-
-	padding: 4px 6px;
-	background: #A7C7E7;
-	color: #000000;
+	padding: 10px 6px;
+	background: #F3F3F3;
+	border: 1px solid #000000;
+	box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.50);
 	border-radius: 5px;
 	font-size: 14px;
+	color: #000000;
+	opacity: 0.8;
 }
 
 

@@ -1,8 +1,8 @@
 {
-	"name" : "Language Immersion",
+	"name" : "Cousteau",
 	"version" : "1.0",
 	"manifest_version" : 2,
-	"description" : "Replaces portions of text with a langauge you're trying to learn",
+	"description" : "Learn a language while browsing the web",
 	"icons" : {"128" : "images/browseraction.png"},
 	"background": {
 		"scripts": [
@@ -11,7 +11,7 @@
 	},
 	"browser_action" : {
 		"default_icon" : "images/browseraction.png",
-		"default_title" : "Language Immersion",
+		"default_title" : "Cousteau",
 		"default_popup": "popup.html"
 	},
 	"content_scripts": [
