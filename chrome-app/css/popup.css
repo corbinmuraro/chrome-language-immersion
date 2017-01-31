@@ -1,106 +1,75 @@
-* {
-  margin: 0;
-}
-
 html, body {
 	height: 400px
-	padding: 0px;
-	margin-bottom: 6px;
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size: 13px;
-	background-image: linear-gradient(-180deg, #CCEBEE 0%, #9CD1D7 100%);
+	padding: 0;
+	margin: 0;
+	font-family: 'F Grotesk Book', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	background: #F0F0F0;
 }
 
 #wrap {
-	min-width: 320px;
+	min-width: 246px;
 }
 
-.header {
-	margin: 6px;
-	text-align: center;
+/*select {
+	-webkit-appearance:none;
+	outline: none;
+	border: 0px;
+	font-size: 16px;
+}
+*/
+.translate-all-wrap {
 	position: relative;
+	margin: 12px auto 16px;
+	width: 126px;
+	height: 30px;	
+	background: #FFFFFF;
+	box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.15);
 }
 
-.header span {
-	margin: 12px;
-	font-size: 18px;
-}
-
-#options {
-	outline: 0;
-	margin: 3px;
-	position:absolute;
-	right:0;
-}
-
-#options .fa-cog {
-  	color: black;
-}
-
-.toggle-wrap {
-	text-align: center;
-	margin: 20px;
-}
-
-.toggle-wrap a {
-	 
-}
-
-.toggle-wrap a img {
-	width: 80px;
-	height: 80px;
-}
-
-#alert {
+.translate-all {
+	display: inline-block;
 	font-size: 14px;
-	text-align: center;
-	margin-top: 10px;
+	color: #5F5F5F;
+	margin: 6px 13px 7px;
+}
+
+.translate-all i {
+	margin-right: 8px;
+}
+
+.translate-all-wrap:hover {
+	cursor: pointer;
 }
 
 .phraseList {
-	display: table;
-	border-collapse: separate;
-	border-spacing: 10px;
+	margin: 0 24px 32px;
 }
-
 
 .phraseGroup {
-	display: table-row;
 	position: relative;
 	margin-bottom: 10px;
+	background: #FFFFFF;
+	box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.15);
 }
 
-.phraseGroup .col1 {
-	width: 46%;
-	display: inline;
-	display: table-cell;
-	padding: 10px 6px;
-	background: #F3F3F3;
-	border: 1px solid #000000;
-	box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.50);
-	border-radius: 5px;
-	font-size: 14px;
-	color: #000000;
-	opacity: 0.8;
+.marker {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 2px;
+	height: 34px;
+	background: #00A5FF;
 }
 
-.phraseGroup .padding {
-	display: table-cell;
-    width: auto;
+.row1, .row2 {
+	display: inline-block;
+	padding: 8px 24px 10px;
 }
 
-.phraseGroup .col2 {
-	width: 46%;
-	display: inline;
-	display: table-cell;
-	padding: 10px 6px;
-	background: #F3F3F3;
-	border: 1px solid #000000;
-	box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.50);
-	border-radius: 5px;
-	font-size: 14px;
-	color: #000000;
-	opacity: 0.8;
+hr { 
+	background-color: #EEF4F8;
+	height: 2px;
+	border: 0;
+	margin: 0;
 }
-
-

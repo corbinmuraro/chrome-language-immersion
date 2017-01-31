@@ -111,7 +111,7 @@ function getTranslation()
 {
 	$.ajax({
 		type: 'POST',
-		url: 'https://languageimmersion.tk:8888',
+		url: 'https://cousteau.corbinmuraro.com:8888',
 		data: JSON.stringify(jsonObject),
 		contentType: 'application/json',
 		dataType: "json",
@@ -146,7 +146,7 @@ function replaceInDOM(untranslated, translated)
 	var onmouseover = "onmouseover=\"this.innerHTML ='" + mouseoverUntranslated + "';\"";
 	var onmouseout = "onmouseout=\"this.innerHTML ='" + mouseoverTranslated + "';\"";
 
-	var translatedString = "<span " + style + " " + onmouseover + " " + onmouseout + ">" + translated + "</span>";
+	var translatedString = "<span data-untranslated='" + untranslated + "' data-translated='" + translated + "'>" + translated + "</span>";
 
 	$("body *").replaceText(untranslatedRegex, translatedString);
 
@@ -189,11 +189,47 @@ chrome.runtime.onMessage.addListener(
             	console.log(translatedContent);
                 sendResponse(translatedContent);
                 break;
+
+            case "untranslateAll":
+            	var allUntranslated = true;
+            	$("span[data-untranslated]").each(function() {
+            		var untranslated = $(this).attr('data-untranslated');
+            		console.log(untranslated);
+            		var spanText = $(this).text();
+            		console.log(spanText);
+            		if (spanText != untranslated)
+            			allUntranslated = false;
+            	});
+
+            	if (allUntranslated)
+            		translateAll();
+            	else
+           			untranslateAll();
+
+				break;
+
             default:
                 console.error("Unrecognised message: ", message);
         }
     }
 );
+
+// all words --> untranslated version
+function untranslateAll() {	
+	$("span[data-untranslated]").each(function(){
+		var untranslatedData = $(this).attr('data-untranslated');
+		$(this).text(untranslatedData);
+	});
+}
+
+// all words --> translated version
+function translateAll() {
+	$("span[data-translated]").each(function(){
+		var translatedData = $(this).attr('data-translated');
+		$(this).text(translatedData);
+	});
+}
+
 
 
 
