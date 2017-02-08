@@ -137,23 +137,14 @@ function replacePhrases(translatedArray)
 // replaces instances of untranslated with translated on DOM
 function replaceInDOM(untranslated, translated)
 {
+	var onmouseover = "onmouseover=\"this.innerHTML ='" + untranslated + "';\"";
+	var onmouseout = "onmouseout=\"this.innerHTML ='" + translated + "';\"";
+
+	var translatedString = "<span " + onmouseover + " " + onmouseout + ">" + translated + "</span>";
+
 	var untranslatedRegex = new RegExp('\\b' + untranslated + '\\b');
-
-	var mouseoverUntranslated = untranslated; // used for replacement
-	var mouseoverTranslated = translated;
-
-	var style = "style='text-decoration: underline'";
-	var onmouseover = "onmouseover=\"this.innerHTML ='" + mouseoverUntranslated + "';\"";
-	var onmouseout = "onmouseout=\"this.innerHTML ='" + mouseoverTranslated + "';\"";
-
-	var translatedString = "<span data-untranslated='" + untranslated + "' data-translated='" + translated + "'>" + translated + "</span>";
-
 	$("body *").replaceText(untranslatedRegex, translatedString);
-
-	// $("p").html(function(i, text) {
-	// 	return text.replace(untranslatedRegex, translatedString);
-	// });
- }
+}
 
 // ARGUMENTS: a string
 // RETURNS: the number of words in the string
@@ -229,29 +220,3 @@ function translateAll() {
 		$(this).text(translatedData);
 	});
 }
-
-
-
-
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// WEB SOCKET translation function
-// %%%%%%%%%%%%%%%%%
-// function getTranslation(arr, pos, snippet)
-// {
-// 		console.log(arr + "   " + pos + "   " + snippet);
-
-// 		socket.emit('pre-translate', {
-// 			value: snippet,
-// 			from: fromLang,
-// 			to: toLang
-// 		});
-
-// 		socket.on('post-translate', function(translatedText){
-// 			// this logic only works for single word phrases
-// 			console.log(arr);
-// 			console.log(pos);
-// 			console.log(translatedText.value);
-// 			arr[pos] = translatedText.value;
-// 			// console.log(arr);
-// 		});
-// }
