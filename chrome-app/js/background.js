@@ -15,6 +15,35 @@
 //     }
 // });
 
+
+
+
+
+// Initialize Firebase
+var config = {
+apiKey: "AIzaSyBzJ0ZR2wWHBlZd9pyaNN0HliflTlXNEjM",
+authDomain: "cousteau-899ad.firebaseapp.com",
+databaseURL: "https://cousteau-899ad.firebaseio.com",
+storageBucket: "cousteau-899ad.appspot.com",
+messagingSenderId: "193947497319"
+};
+firebase.initializeApp(config);
+
+
+function initApp() {
+  // Listen for auth state changes.
+  firebase.auth().onAuthStateChanged(function(user) {
+    console.log('User state change detected from the Background script of the Chrome Extension:', user);
+  });
+}
+
+window.onload = function() {
+  initApp();
+};
+
+
+
+
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.badgeText) {
         chrome.tabs.get(sender.tab.id, function(tab) {

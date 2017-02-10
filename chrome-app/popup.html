@@ -2,9 +2,6 @@
 <head>
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">	
 	<link rel="stylesheet" href="css/popup.css" type="text/css">
-
-	<script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
-	<script type="text/javascript" src="js/popup.js"></script>
 </head>
 <body>
 
@@ -18,15 +15,30 @@
 			</a>
 		</div> -->
 
-		<div id="wrap">
-			<div class="translate-all-wrap">
-				<div class="translate-all">
-					<i class="fa fa-eye" aria-hidden="true"></i><span>Translate All</span>
-				</div>
+  <h3>Firebase Authentication</h3>
+
+  <div class="quickstart-user-details-container">
+    <button id="quickstart-button">Sign-in with Google</button>
+    <p>
+      Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
+      <div>Firebase auth <code>currentUser</code> object value:</div>
+      <pre><code id="quickstart-account-details">null</code></pre>
+    </p>
+  </div>
+
+	<div id="wrap">
+		<div class="translate-all-wrap">
+			<div class="translate-all">
+				<i class="fa fa-eye" aria-hidden="true"></i><span>Translate All</span>
 			</div>
-			
-			<div class="phraseList"></div>
 		</div>
+		
+		<div class="phraseList"></div>
+	</div>
+
+	<script src="https://www.gstatic.com/firebasejs/3.6.9/firebase.js"></script>
+	<script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript" src="js/popup.js"></script>
 </body>
 </html>
 

@@ -1,13 +1,11 @@
 {
 	"name" : "Cousteau",
-	"version" : "1.0",
+	"version" : "0.1.0",
 	"manifest_version" : 2,
 	"description" : "Learn a language while browsing the web",
 	"icons" : {"128" : "images/browseraction.png"},
 	"background": {
-		"scripts": [
-			"js/background.js"
-		]
+		"page" : "background.html"
 	},
 	"browser_action" : {
 		"default_icon" : "images/browseraction.png",
@@ -29,10 +27,19 @@
 	"web_accessible_resources": ["*.ttf" ],
 	"options_page" : "options.html",
 	"permissions" : [
+		"identity",
 		"tabs",
 		"storage",
 		"http://*/*",
 		"https://*/*"
 	],
-	"content_security_policy": "script-src 'self' https://languageimmersion.tk:8888; object-src 'self'"
+	"content_security_policy": "script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com https://languageimmersion.tk:8888; object-src 'self'",
+	"oauth2": {
+		"client_id": "193947497319-tprn0s8lhj87gtldv7e3h30kocebtmgd.apps.googleusercontent.com",
+		"scopes": [
+			"https://www.googleapis.com/auth/userinfo.email",
+			"https://www.googleapis.com/auth/userinfo.profile"
+		]
+	},
+	"key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqX7jbRpzcpdxy+BNlEYTw3TnNAfP5+jk66v4SXj0YxH65aAyBn7APn+oZjNU5JYdvChRIOSaaWiHsm0iIXBtogS7/2zCoNprIzP11cfRYTuNijNxBzMXDpig3+rfmRBZcL4O9Hxw07+jkl9KnarH9nER+KqKWTzgwM7W1OE8jTkhJxa8p+LzIRQNVF530I7Gf5g7GWELDO2EKZVDH24ZdjJFFrLOAlEjpMQZlsx20LJ55s2JbcyY08QSMwfa9rRpoX4mQc5RFfK8TMbcPDRjXTUppaF8u0Uj9QVeKw2IK7pXjOTFkojZ/3GZNDrrGa7EJiNFHNHVUwW+gOWJO/sPhwIDAQAB"
 }
