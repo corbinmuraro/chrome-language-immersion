@@ -139,8 +139,9 @@ function replaceInDOM(untranslated, translated)
 {
 	var onmouseover = "onmouseover=\"this.innerHTML ='" + untranslated + "';\"";
 	var onmouseout = "onmouseout=\"this.innerHTML ='" + translated + "';\"";
+	var style = "style=\"text-decoration:underline;\"";
 
-	var translatedString = "<span " + onmouseover + " " + onmouseout + ">" + translated + "</span>";
+	var translatedString = "<span " + style + " " + onmouseover + " " + onmouseout + ">" + translated + "</span>";
 
 	var untranslatedRegex = new RegExp('\\b' + untranslated + '\\b');
 	$("body *").replaceText(untranslatedRegex, translatedString);
